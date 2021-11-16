@@ -9,16 +9,21 @@ router.post('/admin/items/',(req,res)=>{
 	
 	let {name, price, quantity} = req.body
 
-	 let newItem = mongodb.items({
+	if(!(name && price && quantity)) return res.status(400)	
+
+	let itemId = Math.ceil(Math.random() *10**10)
+
+	let newItem = mongodb.items({
 	 					name, 
 	 					price,
-	 					quantity
+	 					quantity,
+	 					itemId
 	 				})
-	 if(!(name && price && quantity)) return res.status(400)
+
 
     newItem.save((err,docInserted)=>{
 
-    	if (err) return res.status(400)
+    	if (err) return res.status(400).json()
     	res.status(200).json({message:'insert success',docInserted})	
     })
 
@@ -28,14 +33,38 @@ router.post('/admin/items/',(req,res)=>{
 
 // read inventory item
 router.get('/admin/items/:itemId',(req,res)=>{
+	
 	let {itemId} = req.params
-	res.send(itemId)
+	if(!itemId) return res.status(400).json()
+	itemId = parseInt(itemId)
+	items.findOne({itemId},(err,itemObj)=>{
+		if (err) return res.status(400).json()
+			
+		if(itemObj) return res.status(200).json({message:'item retrieved', content:itemObj})
+		res.status(404).json({message:'not found'})
+	})
+	
 })
 
 
+//update inventory item
 router.patch('/admin/items/:itemId',(req,res)=>{
 	let {itemId} = req.params
-	res.send(itemId)
+	let {name, price, quantity} = req.body
+	if(!itemId) return res.status(400).json()
+	itemId = parseInt(itemId)
+	items.updateOne({itemId},{name, price, quantity},(err,resObj)=>{
+
+		if (resObj.matchedCount != 1) return res.status(404).json({message:'not found'})
+
+		if (resObj.modifiedCount == 1) return res.status(204).json()
+
+
+		res.status(400).json()
+
+
+	})	
+	
 })
 
 
