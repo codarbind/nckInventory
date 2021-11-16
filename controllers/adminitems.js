@@ -70,7 +70,11 @@ router.patch('/admin/items/:itemId',(req,res)=>{
 
 router.delete('/admin/items/:itemId',(req,res)=>{
 	let {itemId} = req.params
-	res.send(itemId)
+	items.deleteOne({itemId},(err,resObj)=>{
+		if(resObj.deletedCount == 1) return res.status(200).json({message:'deleted'})
+			res.status(404).json({message:'not found'})
+	})
+	
 })
 
 
