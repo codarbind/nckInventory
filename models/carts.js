@@ -5,18 +5,16 @@ mongoose.connect(process.env.MONGO_DB_URI, {useNewUrlParser: true, useUnifiedTop
 
 const Schema = mongoose.Schema
 
-const ItemSchema = new Schema({
+const CartSchema = new Schema({
 
-	name: String,
-	price: Number,
-	quantity: Number,
-	itemId: Number,
+	userEmail: String,
+	cartItems:Object
 
 })
 
 const Model = mongoose.model
 
-const Items = Model('items',ItemSchema)
+const Carts = Model('carts',CartSchema)
 
 
-module.exports.items = Items
+module.exports.carts = Carts
