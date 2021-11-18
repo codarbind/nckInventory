@@ -4,9 +4,9 @@ const auth = require('../middlewares/userauth')
 const mongodb = require('../models/items')
 
 let items = mongodb.items
-router.get('/items',auth,(req,res,next)=>{
+router.get('/items/:itemId',auth,(req,res,next)=>{
 	let {userEmail} = req.body
-	let {itemId} = req.query
+	let {itemId} = req.params
 
 	if(!userEmail) return res.status(403).json()
 
