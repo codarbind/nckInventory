@@ -13,5 +13,5 @@ app.use(adminItems)
 app.use(userauth)
 app.use(useritems)
 app.use(cart)
-
-app.listen(3434,()=>{console.log('listening at port: ', 3434)})
+let port = process.env.PORT || 3434
+app.listen(port,()=>{console.log('listening at port: ', port)})
