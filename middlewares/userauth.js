@@ -7,8 +7,8 @@ if(!token) res.status(400).json()
 
 	try{
 
-		let userEmail = jwt.verify(token,process.env.AUTH_KEY)
-		console.log(userEmail)
+		let userEmail = jwt.verify(token,process.env.AUTH_KEY).userEmail
+		
 
 		if(userEmail){
 			req.body.userEmail = userEmail
