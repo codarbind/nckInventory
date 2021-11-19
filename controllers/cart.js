@@ -11,7 +11,7 @@ router.post('/cart',auth,(req,res,next)=>{
 
 
 	let {itemId, quantity} = req.query
-	if(quantity<1 ) return res.status(400).json({message:'can only add integers from 1'})
+	if(quantity<0 ) return res.status(400).json({message:'can only add 0 and integers from 1'})
 	quantity = parseInt(quantity)
 
 	if(!userEmail || !itemId ) return res.status(403).json()

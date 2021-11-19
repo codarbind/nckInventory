@@ -24,7 +24,7 @@ router.post('/admin/items/',(req,res)=>{
     newItem.save((err,docInserted)=>{
 
     	if (err) return res.status(400).json()
-    	res.status(200).json({message:'insert success',docInserted})	
+    	res.status(200).json({message:'insert success',content:{docInserted}})	
     })
 
 
@@ -40,7 +40,7 @@ router.get('/admin/items/:itemId',(req,res)=>{
 	items.findOne({itemId},(err,itemObj)=>{
 		if (err) return res.status(400).json()
 			
-		if(itemObj) return res.status(200).json({message:'item retrieved', content:itemObj})
+		if(itemObj) return res.status(200).json({message:'item retrieved', content:{itemObj}})
 		res.status(404).json({message:'not found'})
 	})
 	
@@ -51,7 +51,7 @@ router.get('/admin/items/:itemId',(req,res)=>{
 router.patch('/admin/items/:itemId',(req,res)=>{
 	let {itemId} = req.params
 	let {name, price, quantity} = req.body
-	if(!itemId) return res.status(400).json()
+	if(!(itemId && name && price && quantity)) return res.status(400).json()
 	itemId = parseInt(itemId)
 	items.updateOne({itemId},{name, price, quantity},(err,resObj)=>{
 

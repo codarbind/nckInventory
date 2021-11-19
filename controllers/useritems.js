@@ -14,7 +14,7 @@ router.get('/items/:itemId',auth,(req,res,next)=>{
 
 			if(err) return res.status(400).json()
 
-				if(itemObj) return res.status(200).json({message:'item found', content:itemObj})
+				if(itemObj) return res.status(200).json({message:'item found', content:{itemObj}})
 
 					res.status(404).json({message:'not found'})
 		})
